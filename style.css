@@ -213,7 +213,12 @@ a {
     -webkit-backdrop-filter: blur(15px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
-
+.logo-img {
+    height: 32px; /* Adjust based on your logo aspect ratio */
+    width: auto;
+    display: block;
+    transition: transform 0.3s ease;
+}
 .nav-container {
     width: 100%;
     max-width: 1300px;

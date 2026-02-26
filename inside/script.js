@@ -1,3 +1,22 @@
+// 0. Load Shared Components (nav + footer)
+function loadComponent(placeholderId, path) {
+    var el = document.getElementById(placeholderId);
+    if (!el) return;
+    fetch(path || el.getAttribute('data-path'))
+        .then(function(r) { return r.text(); })
+        .then(function(html) {
+            el.innerHTML = html;
+            el.querySelectorAll('script').forEach(function(s) {
+                var ns = document.createElement('script');
+                ns.textContent = s.textContent;
+                document.body.appendChild(ns);
+            });
+        })
+        .catch(console.error);
+}
+loadComponent('navbar-placeholder');
+loadComponent('footer-placeholder');
+
 gsap.registerPlugin(ScrollTrigger);
 window.addEventListener('load', () => {
     // 1. Watermark Movement
