@@ -95,8 +95,14 @@ select:focus {
 }
 
 /* Buttons */
+.step-actions {
+    display: flex;
+    gap: 20px;
+}
+
 .next-trigger,
-.submit-trigger {
+.submit-trigger,
+.back-trigger {
     margin-top: 50px;
     background: transparent;
     border: 1px solid var(--teal);
@@ -109,7 +115,8 @@ select:focus {
 }
 
 .next-trigger:hover,
-.submit-trigger:hover {
+.submit-trigger:hover,
+.back-trigger:hover {
     background: var(--teal);
     color: #fff;
 }
