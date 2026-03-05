@@ -72,6 +72,9 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--black); c
 }
 .cta-content { position: relative; z-index: 2; }
 .cta-huge { font-size: clamp(4rem, 10vw, 8rem); font-weight: 800; margin-bottom: 30px; }
+/* Hide duplicate CTA in shared footer — Services page has its own */
+.footer-cta-hero { display: none !important; }
+
 .outline-text { -webkit-text-stroke: 1px white; color: transparent; }
 .btn-main { 
     display: inline-block; padding: 25px 60px; background: white; color: var(--black);

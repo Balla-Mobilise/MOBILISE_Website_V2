@@ -1,18 +1,162 @@
-<nav class="main-nav">
-    <div class="nav-container">
-        <div class="nav-logo">
-            <a href="/index.html">MOBILISE<span class="teal-text">.</span></a>
-        </div>
-        
-        <ul class="nav-links">
-            <li><a href="/Services/services.html" data-link="services">Services</a></li>
-            <li><a href="/About_us/about.html" data-link="about">About Us</a></li>
-            <li><a href="/inside/index.html" data-link="inside">Inside MOBILISE</a></li>
-            <li><a href="/careers/index.html" data-link="careers">Careers</a></li>
-        </ul>
+<style>
+    :root {
+        --teal: #127993;
+        --nav-text: rgba(0, 0, 0, 0.7); /* Deep grey for visibility on light */
+    }
 
-        <div class="nav-cta">
-            <a href="/contact/index.html" class="btn-nav">Contact Us</a>
+    .arch-nav {
+        position: fixed;
+        top: 25px;
+        left: 0;
+        width: 100%;
+        z-index: 10000;
+        transition: all 0.4s ease;
+    }
+
+    .nav-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+        display: flex;
+        justify-content: center;
+    }
+
+    /* THE BAR: Thin border + Frosted Glass */
+    .nav-bar {
+        display: flex;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.6); /* Increased opacity for better home page contrast */
+        backdrop-filter: blur(20px) saturate(160%);
+        -webkit-backdrop-filter: blur(20px);
+        padding: 8px 8px 8px 35px;
+        border-radius: 100px;
+        /* Ultra-thin architectural border */
+        border: 1px solid rgba(0, 0, 0, 0.05); 
+        gap: 50px;
+        transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04);
+    }
+
+    /* LOGO: Expanded and Crisp */
+    .logo-wrap img {
+        height: 24px; /* Scaled up for better presence */
+        width: auto;
+        display: block;
+        /* We remove mix-blend and use a filter that works on light blue/white */
+        filter: brightness(0); /* Forces logo to black for clear visibility */
+        opacity: 0.8;
+        transition: all 0.3s ease;
+    }
+
+    /* NAV LINKS */
+    .nav-menu {
+        display: flex;
+        list-style: none;
+        gap: 35px;
+        margin: 0;
+        padding: 0;
+    }
+
+    .nav-menu a {
+        text-decoration: none;
+        color: var(--nav-text); 
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        transition: 0.3s ease;
+    }
+
+    .nav-menu a:hover, 
+    .nav-menu a.active {
+        color: var(--teal) !important;
+        opacity: 1;
+    }
+
+    /* THE BUTTON: Solid Architectural Black */
+    .nav-action a {
+        text-decoration: none;
+        background: #000000;
+        color: #ffffff;
+        padding: 14px 32px;
+        border-radius: 100px;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-size: 11px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        display: block;
+        transition: all 0.3s ease;
+    }
+
+    .nav-action a:hover {
+        background: var(--teal);
+        transform: translateY(-1px);
+    }
+
+    /* DARK SECTION OVERRIDE: Using a class we trigger with JS */
+    .on-dark .nav-bar {
+        background: rgba(0, 0, 0, 0.2);
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+    .on-dark .logo-wrap img { filter: brightness(0) invert(1); }
+    .on-dark .nav-menu a { color: rgba(255, 255, 255, 0.7); }
+
+    @media (max-width: 900px) {
+        .nav-menu { display: none; }
+    }
+</style>
+
+<nav class="arch-nav" id="archNav">
+    <div class="nav-container">
+        <div class="nav-bar">
+            <div class="logo-wrap">
+                <a href="/index.html">
+                    <img src="/images/logo.webp" alt="MOBILISE">
+                </a>
+            </div>
+
+            <ul class="nav-menu">
+                <li><a href="/Services/services.html">Services</a></li>
+                <li><a href="/About_us/about.html">About</a></li>
+                <li><a href="/inside/index.html">Inside</a></li>
+                <li><a href="/careers/index.html">Careers</a></li>
+            </ul>
+
+            <div class="nav-action">
+                <a href="/contact/index.html">Contact Us</a>
+            </div>
         </div>
     </div>
 </nav>
+
+<script>
+    (function() {
+        const nav = document.getElementById('archNav');
+        
+        window.addEventListener('scroll', () => {
+            const scrollPos = window.scrollY;
+            
+            // Handle Scroll Animation
+            if(scrollPos > 50) {
+                nav.style.top = "15px";
+            } else {
+                nav.style.top = "25px";
+            }
+
+            // SMART COLOR FLIP: 
+            // Detects if the section under the nav is dark or light
+            const el = document.elementFromPoint(window.innerWidth / 2, 50);
+            if (el) {
+                const bg = window.getComputedStyle(el).backgroundColor;
+                const rgb = bg.match(/\d+/g);
+                if (rgb) {
+                    const brightness = (rgb[0] * 299 + rgb[1] * 587 + rgb[2] * 114) / 1000;
+                    // If background is dark (brightness < 125), add 'on-dark' class
+                    nav.classList.toggle('on-dark', brightness < 125);
+                }
+            }
+        }, { passive: true });
+    })();
+</script>

@@ -1,0 +1,507 @@
+<style>
+/* =====================================================
+   MOBILISE — Shared Footer Styles
+   Self-contained so this works on every page.
+   ===================================================== */
+
+.site-footer-premium {
+    background: #ffffff;
+    padding: 100px 8% 50px;
+    border-top: 1px solid #eee;
+    overflow: hidden;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.footer-wrapper {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.footer-cta-hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding-bottom: 60px;
+    margin-bottom: 60px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.cta-large-text {
+    font-size: clamp(3.5rem, 9vw, 8rem);
+    font-weight: 800;
+    line-height: 0.85;
+    letter-spacing: -0.04em;
+    margin: 0;
+    color: #050505;
+    transition: transform 0.2s ease-out;
+}
+
+.cta-large-text span {
+    color: #127993;
+}
+
+.envelope-trigger {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+.btn-circle {
+    width: 90px;
+    height: 90px;
+    background: #050505;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+    transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-circle svg {
+    width: 30px;
+    height: 30px;
+    position: relative;
+    z-index: 2;
+}
+
+.btn-ripple {
+    position: absolute;
+    inset: 0;
+    background: #127993;
+    transform: translateY(100%);
+    transition: transform 0.5s ease;
+}
+
+.envelope-trigger:hover .btn-ripple { transform: translateY(0); }
+.envelope-trigger:hover .btn-circle { transform: scale(1.1); }
+.envelope-trigger:hover .btn-label { letter-spacing: 3px; }
+
+.btn-label {
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #050505;
+    transition: letter-spacing 0.3s ease;
+}
+
+.footer-main-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 1.2fr;
+    gap: 40px;
+    margin-bottom: 60px;
+}
+
+.footer-nav-left { text-align: left; }
+.footer-nav-right { text-align: right; }
+.footer-brand-center { text-align: center; }
+
+.location-block { margin-bottom: 20px; }
+
+.loc-city {
+    font-weight: 700;
+    font-size: 1rem;
+    margin: 0 0 4px 0;
+    color: #000;
+}
+
+.loc-time {
+    font-size: 0.85rem;
+    color: #127993;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.gmt-tag {
+    font-size: 0.65rem;
+    background: #f5f5f5;
+    color: #999;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.footer-logo {
+    height: 35px;
+    margin: 0 auto 15px;
+    display: block;
+}
+
+.footer-mission {
+    font-size: 0.95rem;
+    color: #666;
+    max-width: 280px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.footer-label {
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    margin-bottom: 25px;
+    display: block;
+    color: #000;
+}
+
+.footer-link-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-link-list li { margin-bottom: 10px; }
+
+.footer-link-list a {
+    text-decoration: none;
+    color: #777;
+    font-size: 0.95rem;
+    transition: color 0.3s;
+    font-weight: 500;
+}
+
+.footer-link-list a:hover { color: #127993; }
+
+.meta-divider {
+    height: 1px;
+    background: #f0f0f0;
+    margin-bottom: 25px;
+}
+
+.meta-bottom {
+    display: flex;
+    justify-content: space-between;
+    color: #999;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.meta-bottom a {
+    text-decoration: none;
+    color: #999;
+    transition: color 0.3s;
+}
+
+.meta-bottom a:hover { color: #127993; }
+
+.meta-bottom-links { display: flex; gap: 20px; }
+
+/* Contact Overlay */
+.ftr-contact-overlay {
+    position: fixed;
+    inset: 0;
+    background: #050505;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    visibility: hidden;
+    clip-path: circle(0% at 90% 90%);
+    transition: clip-path 0.8s cubic-bezier(0.77, 0, 0.175, 1), visibility 0s 0.8s;
+}
+
+.ftr-contact-overlay.active {
+    visibility: visible;
+    clip-path: circle(150% at 90% 90%);
+    transition: clip-path 1s cubic-bezier(0.77, 0, 0.175, 1), visibility 0s 0s;
+}
+
+.ftr-overlay-close {
+    position: absolute;
+    top: 40px;
+    right: 40px;
+    width: 50px;
+    height: 50px;
+    border: 1px solid #333;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.4s;
+}
+
+.ftr-overlay-close:hover {
+    border-color: #127993;
+    transform: rotate(90deg);
+}
+
+.ftr-overlay-close span {
+    position: absolute;
+    width: 20px;
+    height: 2px;
+    background: #fff;
+}
+
+.ftr-overlay-close span:nth-child(1) { transform: rotate(45deg); }
+.ftr-overlay-close span:nth-child(2) { transform: rotate(-45deg); }
+
+.ftr-contact-container {
+    width: 90%;
+    max-width: 680px;
+}
+
+.ftr-form-title {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -0.02em;
+    margin: 0 0 50px;
+    line-height: 1.1;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.ftr-contact-form .ftr-form-group {
+    position: relative;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #222;
+}
+
+.ftr-contact-form input,
+.ftr-contact-form textarea {
+    width: 100%;
+    background: none;
+    border: none;
+    outline: none;
+    color: #fff;
+    font-size: 1.1rem;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    padding: 15px 0;
+    box-sizing: border-box;
+}
+
+.ftr-contact-form label {
+    position: absolute;
+    top: 15px;
+    left: 0;
+    color: #555;
+    font-size: 1rem;
+    pointer-events: none;
+    transition: 0.3s ease;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.ftr-contact-form input:focus + label,
+.ftr-contact-form input:not(:placeholder-shown) + label,
+.ftr-contact-form textarea:focus + label,
+.ftr-contact-form textarea:not(:placeholder-shown) + label {
+    top: -10px;
+    font-size: 0.75rem;
+    color: #127993;
+    letter-spacing: 1px;
+}
+
+.ftr-line-focus {
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: #127993;
+    transition: width 0.4s ease;
+}
+
+.ftr-contact-form .ftr-form-group:focus-within .ftr-line-focus { width: 100%; }
+
+.ftr-submit-btn {
+    width: 100%;
+    padding: 18px;
+    background: #127993;
+    color: #fff;
+    border: none;
+    font-size: 0.85rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.3s;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    margin-top: 10px;
+}
+
+.ftr-submit-btn:hover { background: #0f6278; }
+
+/* Responsive */
+@media (max-width: 900px) {
+    .footer-main-grid {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 50px;
+    }
+    .footer-nav-left,
+    .footer-nav-right { text-align: center; }
+    .loc-time { justify-content: center; }
+}
+
+@media (max-width: 768px) {
+    .site-footer-premium { padding: 60px 6%; }
+    .cta-large-text { font-size: 3.5rem; }
+    .footer-cta-hero { flex-direction: column; align-items: flex-start; gap: 40px; }
+}
+</style>
+
+<footer class="site-footer-premium">
+    <div class="footer-wrapper">
+
+        <!-- Hero CTA -->
+        <div class="footer-cta-hero">
+            <div class="cta-text-wrapper">
+                <h2 class="cta-large-text" id="ftrMagnetCTA">
+                    READY TO <br> <span>MOBILISE?</span>
+                </h2>
+            </div>
+            <button class="envelope-trigger" id="ftrOpenForm">
+                <div class="btn-circle">
+                    <div class="btn-ripple"></div>
+                    <div class="icon-mail">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                        </svg>
+                    </div>
+                </div>
+                <span class="btn-label">GET IN TOUCH</span>
+            </button>
+        </div>
+
+        <!-- Footer Grid -->
+        <div class="footer-main-grid">
+            <div class="footer-nav-left">
+                <span class="footer-label">Global Locations</span>
+                <div class="location-block">
+                    <p class="loc-city">London, UK</p>
+                    <p class="loc-time"><span id="ftr-time-london">--:--:--</span> <span class="gmt-tag">GMT</span></p>
+                </div>
+                <div class="location-block">
+                    <p class="loc-city">Dubai, UAE</p>
+                    <p class="loc-time"><span id="ftr-time-dubai">--:--:--</span> <span class="gmt-tag">GST</span></p>
+                </div>
+                <div class="location-block">
+                    <p class="loc-city">Singapore, SG</p>
+                    <p class="loc-time"><span id="ftr-time-singapore">--:--:--</span> <span class="gmt-tag">SGT</span></p>
+                </div>
+            </div>
+
+            <div class="footer-brand-center">
+                <img src="/images/logo.webp" alt="MOBILISE" class="footer-logo">
+                <p class="footer-mission">Precision marketing for enterprise leaders. Engineered for speed, built for scale.</p>
+            </div>
+
+            <div class="footer-nav-right">
+                <span class="footer-label">Connect</span>
+                <ul class="footer-link-list">
+                    <li><a href="/contact/index.html">Contact Us</a></li>
+                    <li><a href="/careers/index.html">Careers</a></li>
+                    <li><a href="mailto:admin@mobilise.agency">admin@mobilise.agency</a></li>
+                    <li><a href="#">LinkedIn</a></li>
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">X / Twitter</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="meta-divider"></div>
+        <div class="meta-bottom">
+            <p>Copyright © 2026 MOBILISE - All Rights Reserved.</p>
+            <div class="meta-bottom-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Contact Overlay -->
+<div class="ftr-contact-overlay" id="ftrContactOverlay">
+    <div class="ftr-overlay-close" id="ftrCloseForm">
+        <span></span>
+        <span></span>
+    </div>
+    <div class="ftr-contact-container">
+        <h2 class="ftr-form-title">LET'S START THE <br>CONVERSATION</h2>
+        <form class="ftr-contact-form" id="ftrContactForm">
+            <div class="ftr-form-group">
+                <input type="text" id="ftr-name" placeholder=" " required>
+                <label for="ftr-name">Your Name</label>
+                <div class="ftr-line-focus"></div>
+            </div>
+            <div class="ftr-form-group">
+                <input type="email" id="ftr-email" placeholder=" " required>
+                <label for="ftr-email">Work Email</label>
+                <div class="ftr-line-focus"></div>
+            </div>
+            <div class="ftr-form-group">
+                <textarea id="ftr-message" placeholder=" " rows="1"></textarea>
+                <label for="ftr-message">Project Details</label>
+                <div class="ftr-line-focus"></div>
+            </div>
+            <button type="submit" class="ftr-submit-btn">SEND MESSAGE</button>
+        </form>
+    </div>
+</div>
+
+<script>
+(function initFooterComponent() {
+    // 1. Live Clocks
+    const clockZones = [
+        { id: 'ftr-time-london',    zone: 'Europe/London'    },
+        { id: 'ftr-time-dubai',     zone: 'Asia/Dubai'       },
+        { id: 'ftr-time-singapore', zone: 'Asia/Singapore'   }
+    ];
+    const clockOpts = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
+
+    function updateClocks() {
+        clockZones.forEach(function(loc) {
+            var el = document.getElementById(loc.id);
+            if (!el) return;
+            try {
+                el.textContent = new Intl.DateTimeFormat('en-US', Object.assign({}, clockOpts, { timeZone: loc.zone })).format(new Date());
+            } catch(e) { el.textContent = '--:--:--'; }
+        });
+    }
+    updateClocks();
+    setInterval(updateClocks, 1000);
+
+    // 2. Contact Overlay
+    var openBtn  = document.getElementById('ftrOpenForm');
+    var closeBtn = document.getElementById('ftrCloseForm');
+    var overlay  = document.getElementById('ftrContactOverlay');
+
+    if (openBtn && overlay) {
+        openBtn.addEventListener('click', function() {
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+    }
+    if (closeBtn && overlay) {
+        closeBtn.addEventListener('click', function() {
+            overlay.classList.remove('active');
+            setTimeout(function() { document.body.style.overflow = ''; }, 800);
+        });
+    }
+
+    // 3. Magnetic CTA
+    var ctaText = document.getElementById('ftrMagnetCTA');
+    if (ctaText) {
+        var wrapper = ctaText.parentElement;
+        wrapper.addEventListener('mousemove', function(e) {
+            var rect = ctaText.getBoundingClientRect();
+            var x = (e.clientX - rect.left) / rect.width - 0.5;
+            var y = (e.clientY - rect.top)  / rect.height - 0.5;
+            ctaText.style.transform = 'perspective(1000px) rotateY(' + (x * 10) + 'deg) rotateX(' + (-y * 10) + 'deg)';
+        });
+        wrapper.addEventListener('mouseleave', function() {
+            ctaText.style.transform = 'perspective(1000px) rotateY(0deg) rotateX(0deg)';
+        });
+    }
+})();
+</script>
