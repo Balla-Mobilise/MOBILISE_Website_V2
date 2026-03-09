@@ -345,15 +345,27 @@ function initMapPortal() {
     const cards = document.querySelectorAll('.loc-card');
     const mapLayer = document.getElementById('mapLayer');
 
+    let mapDots = document.querySelectorAll(".map-marker")
+
+
+
     if (!mapLayer || cards.length === 0) return;
 
-    cards.forEach(card => {
+    cards.forEach((card,index1) => {
         card.addEventListener('click', function () {
             cards.forEach(c => c.classList.remove('active'));
+            mapDots.forEach((a,index2) => {
+                if (index1 === index2){
+                    a.style.display = "block"
+                }
+                else{
+                    a.style.display = "none"
+                }
+            })
             this.classList.add('active');
-
             const { x, y, z } = this.dataset;
-            mapLayer.style.transform = `scale(${z}) translate(${x}%, ${y}%)`;
+            mapLayer.style.transform = `translate(${x}%, ${y}%) scale(${z})`;
+            mapLayer.style.transformOrigin = "center center";
             mapLayer.style.filter = "brightness(1.5) blur(2px) contrast(1.2)";
 
             setTimeout(() => {
@@ -361,6 +373,7 @@ function initMapPortal() {
             }, 500);
         });
     });
+
 }
 
 // --- 10. Footer Interactions ---
