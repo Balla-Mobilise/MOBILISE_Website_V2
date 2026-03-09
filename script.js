@@ -11,6 +11,25 @@ const State = {
     height: window.innerHeight
 };
 
+// --- Shared component loader (executes inline scripts after injection) ---
+function loadComponent(placeholderId, path) {
+    const el = document.getElementById(placeholderId);
+    if (!el) return;
+    const src = path || el.getAttribute('data-path');
+    fetch(src)
+        .then(r => { if (!r.ok) throw new Error('Failed to load ' + src); return r.text(); })
+        .then(html => {
+            el.innerHTML = html;
+            // Re-execute any <script> tags in the injected HTML
+            el.querySelectorAll('script').forEach(function(s) {
+                var ns = document.createElement('script');
+                ns.textContent = s.textContent;
+                document.body.appendChild(ns);
+            });
+        })
+        .catch(console.error);
+}
+
 // --- Initialization ---
 document.addEventListener('DOMContentLoaded', () => {
     initLoader();
@@ -22,10 +41,10 @@ document.addEventListener('DOMContentLoaded', () => {
     initInsightsPreview();
     initLiquidLens();
     initMapPortal();
-    initFooterInteractions();
     initMagneticText();
     initNavigation();
     initNavbar();
+    loadComponent('footer-placeholder');
 });
 
 // --- 1. Global Trackers (Mouse & Scroll) ---
@@ -44,6 +63,8 @@ function initGlobalTrackers() {
         State.height = window.innerHeight;
     });
 }
+
+
 // 1. Initialize Lenis (Smooth Scroll)
 if (typeof Lenis !== 'undefined') {
     const lenis = new Lenis();
@@ -56,35 +77,7 @@ if (typeof Lenis !== 'undefined') {
 
 // 2. Load Navbar Function
 function initNavbar() {
-    const placeholder = document.getElementById('navbar-placeholder');
-    if (!placeholder) return;
-
-    const navPath = placeholder.getAttribute('data-path') || '/nav.html';
-
-    fetch(navPath)
-        .then(res => {
-            if (!res.ok) throw new Error('Failed to load nav');
-            return res.text();
-        })
-        .then(data => {
-            placeholder.innerHTML = data;
-
-            // Set Active State
-            const currentPath = window.location.pathname;
-            const navLinks = document.querySelectorAll('.nav-links a');
-
-            navLinks.forEach(link => {
-                if (currentPath.includes(link.getAttribute('href'))) {
-                    link.classList.add('active');
-                }
-            });
-
-            // Re-initialize navigation logic once the navbar is injected
-            if (typeof initNavigation === 'function') {
-                initNavigation();
-            }
-        })
-        .catch(err => console.error(err));
+    loadComponent('navbar-placeholder');
 }
 
 // 3. GSAP Stacking Cards Logic (Smooth Version)
